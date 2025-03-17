@@ -1,0 +1,110 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Roboto', sans-serif;
+    background-color: rgb(255, 249, 249);
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  .contenitore {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  header {
+    background-color: rgb(255, 249, 249);
+  }
+  
+  .header-contenitore {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  header h1 {
+    color: #333;
+  }
+  
+  ul.menu {
+    list-style: none;  
+    display: flex;
+    align-items: center;
+  }
+  
+  ul.menu li {
+    position: relative;
+    margin-left: 20px;
+  }
+  
+  ul.menu li a {
+    text-decoration: none;
+    color: #333;
+    padding: 8px 12px;
+    border-radius: 25px;
+  }
+  
+  ul.menu li a:hover {
+    background-color: rgba(0, 0, 0, 0.1);  /*colore pulsante della barra*/
+  }
+  
+  /* Sezioni */
+  .sezione {
+    padding: 60px;
+  }
+  
+  .home-sezione {
+    background: linear-gradient(135deg, #e0eafc, #cfdef3);
+  }
+  
+  .sezione h2 {
+    font-size: 50px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+  }
+  
+  /* Progetti */
+  .progetti {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin: 20px 0;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .progetti {
+    transform: translateY(-5px);
+  }
+  
+  /* Pulsante */
+  .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: rgb(0, 89, 255);
+    border-radius: 25px;
+    margin-top: 10px;
+  }
+  
+  a {
+    text-decoration: none; /*per togliere la linea che appare con il link*/
+  }
+  
+  a:hover {
+    color: #000000;
+  }
+  
+  p {
+    text-align: center;
+  }
+  

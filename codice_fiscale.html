@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Lorenzo Ruscica" />
+    <meta name="description" content="Codice fiscale in c" />
+    <meta name="keywords" content="Portfolio Lorenzo Ruscica" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="refresh" content="100000">
+  <title>Codice Fiscale in C</title>
+  <link rel="stylesheet" href="codice_fiscale.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Eseguire il calcolo del Codice Fiscale in c</h1>
+    </header>
+    <p>Il progetto riguarda la generazione del codice fiscale italiano utilizzando il linguaggio C. 
+        Il funzionamento del programma e che, dato un nome, cognome, sesso, data e luogo di nascita, calcoli automaticamente il codice fiscale</p>
+    <pre>
+        #include <stdio.h>
+            #include string.h
+            #include conio.h
+            #include ctype.h
+            
+            void maiuscolo(char *s) 
+            {
+                while (*s)
+                {
+                    *s = toupper(*s);
+                    s++;
+                }
+            }
+            void calcolo_data(int g, int m, int a, char s, char codice_fiscale[])
+            {
+                memset(codice_fiscale, 0, 17);
+                if (g < 1 || g > 31)
+                {
+                    printf("Il giorno inserito non e' corretto, inserire un numero compreso tra 1 e 31.\n");
+                    return;
+                } // verifico che la data inserita sia corretta
+                if (m < 1 || m > 12)
+                {
+                    printf("Il mese inserito non e' corretto, inserire un numero compreso tra 1 e 12.\n");
+                    return;
+                }
+                switch (m)
+                { 
+                case 1:
+                    codice_fiscale[8] = 'A';
+                    break;
+                case 2:
+                    codice_fiscale[8] = 'B';
+                    break;
+                case 3:
+                    codice_fiscale[8] = 'C';
+                    break;
+                case 4:
+                    codice_fiscale[8] = 'D';
+                    break;
+                case 5:
+                    codice_fiscale[8] = 'E';
+                    break;
+                case 6:
+                    codice_fiscale[8] = 'H';
+                    break;
+                case 7:
+                    codice_fiscale[8] = 'L';
+                    break;
+                case 8:
+                    codice_fiscale[8] = 'M';
+                    break;
+                case 9:
+                    codice_fiscale[8] = 'P';
+                    break;
+                case 10:
+                    codice_fiscale[8] = 'R';
+                    break;
+                case 11:
+                    codice_fiscale[8] = 'S';
+                    break;
+                case 12:
+                    codice_fiscale[8] = 'T';
+                    break;
+                default:
+                    printf("Mese non valido.\n");
+                }
+                if (s == 'M')
+                {
+                    codice_fiscale[9] = (g / 10) + '0';
+                    codice_fiscale[10] = (g % 10) + '0';
+                }
+                else if (s == 'F')
+                { 
+                    g += 40;
+                    codice_fiscale[9] = (g / 10) + '0';
+                    codice_fiscale[10] = (g % 10) + '0';
+                }
+                else
+                {
+                    printf("Sesso non riconosciuto\n");
+                }
+                int anno = a % 100; 
+                codice_fiscale[6] = (anno / 10) + '0';
+                codice_fiscale[7] = (anno % 10) + '0';
+            }
+            
+            void calcolo_cognome(char cognome[], char codice_fiscale[])
+            {
+                char cons[10];
+                char vocal[10];
+                int contatore_cons = 0, contatore_vocal = 0;
+                for (int i = 0; i < cognome[i]; i++)
+                {
+                    if (cognome[i] == 'A' || cognome[i] == 'E' || cognome[i] == 'I' || cognome[i] == 'O' || 
+                    cognome[i] == 'U') 
+                    {
+                        vocal[contatore_vocal] = cognome[i];
+                        contatore_vocal = contatore_vocal + 1;
+                    }
+                    else
+                    {
+                        cons[contatore_cons] = cognome[i];
+                        contatore_cons = contatore_cons + 1;
+                    }
+                }
+            
+                if (contatore_cons >= 3)
+                {
+                    codice_fiscale[0] = cons[0];
+                    codice_fiscale[1] = cons[1];
+                    codice_fiscale[2] = cons[2];
+                }
+                else if (contatore_cons == 2)
+                {
+                    codice_fiscale[0] = cons[0];
+                    codice_fiscale[1] = cons[1];
+                    codice_fiscale[2] = vocal[0];
+                }
+                else if (contatore_cons == 1 && contatore_vocal >= 2)
+                {
+                    codice_fiscale[0] = cons[0];
+                    codice_fiscale[1] = vocal[0];
+                    codice_fiscale[3] = vocal[1];
+                }
+                else if (contatore_cons == 1 && contatore_vocal == 1)
+                {
+                    codice_fiscale[0] = cons[0];
+                    codice_fiscale[1] = vocal[0];
+                    codice_fiscale[2] = 'X';
+                }
+                else if (contatore_cons == 0 && contatore_vocal >= 2)
+                {
+                    codice_fiscale[0] = vocal[0];
+                    codice_fiscale[1] = vocal[1];
+                    codice_fiscale[2] = 'X';
+                }
+            }
+            
+            int calcolo_nome(char nome[], char codice_fiscale[])
+            {
+                char cons[10];
+                char vocal[10];
+                int contatore_cons = 0, contatore_vocal = 0;
+                for (int i = 0; i < nome[i]; i++)
+                {
+                    if (nome[i] == 'A' || nome[i] == 'E' || nome[i] == 'I' || nome[i] == 'O' || nome[i] 
+                    == 'U')   
+                    {
+                        vocal[contatore_vocal] = nome[i];
+                        contatore_vocal = contatore_vocal + 1;
+                    }
+                    else
+                    {
+                        cons[contatore_cons] = nome[i];
+                        contatore_cons = contatore_cons + 1;
+                    }
+                }
+            
+                if (contatore_cons >= 4)         
+                {
+                    codice_fiscale[3] = cons[0];
+                    codice_fiscale[4] = cons[2];
+                    codice_fiscale[5] = cons[3];
+                }
+                else if (contatore_cons == 3)
+                {
+                    codice_fiscale[3] = cons[0];
+                    codice_fiscale[4] = cons[1];
+                    codice_fiscale[5] = cons[2];
+                }
+                else if (contatore_cons == 2)
+                {
+                    codice_fiscale[3] = cons[0];
+                    codice_fiscale[4] = cons[1];
+                    codice_fiscale[5] = vocal[0];
+                }
+                else if (contatore_cons == 1 && contatore_vocal >= 2)
+                {
+                    codice_fiscale[3] = cons[0];
+                    codice_fiscale[4] = vocal[0];
+                    codice_fiscale[5] = vocal[1];
+                }
+                else if (contatore_cons == 1 && contatore_vocal == 1)
+                {
+                    codice_fiscale[3] = cons[0];
+                    codice_fiscale[4] = vocal[0];
+                    codice_fiscale[5] = 'X';
+                }
+                else if (contatore_cons == 0 && contatore_vocal >= 2)
+                {
+                    codice_fiscale[3] = vocal[0];
+                    codice_fiscale[4] = vocal[1];
+                    codice_fiscale[5] = 'X';
+                }
+            }
+            
+            int calcolo_comune(char comune[], char codice_fiscale[]) { 
+                char comune_file[30], codice_catastale[5]; 
+                FILE *file = fopen("comuni_italiani.txt", "r");  
+                if (file == NULL)
+                {
+                    perror("Errore file");
+                    return 0;
+                }
+                
+                while (fscanf(file, "%s %4s", comune_file, codice_catastale) == 2)
+                {
+                    if (strcmp(comune, comune_file) == 0)
+                    {
+                        strncpy(codice_fiscale + 11, codice_catastale, 4);
+                        fclose(file);
+                        return 1;
+                    }
+            
+                }
+            }
+            
+            int caratteri_dispari(char c) {   
+                switch(c) {
+                    case '0': return 1;
+                    case '1': return 0;
+                    case '2': return 5;
+                    case '3': return 7;
+                    case '4': return 9;  
+                    case '5': return 13;
+                    case '6': return 15;
+                    case '7': return 17;
+                    case '8': return 19;
+                    case '9': return 21;
+                    case 'A': return 1;  
+                    case 'B': return 0;
+                    case 'C': return 5;
+                    case 'D': return 7;
+                    case 'E': return 9;
+                    case 'F': return 13;
+                    case 'G': return 15;
+                    case 'H': return 17;   
+                    case 'I': return 19;
+                    case 'J': return 21;
+                    case 'K': return 2;
+                    case 'L': return 4;
+                    case 'M': return 18;
+                    case 'N': return 20;
+                    case 'O': return 11;
+                    case 'P': return 3;
+                    case 'Q': return 6;
+                    case 'R': return 8;
+                    case 'S': return 12;
+                    case 'T': return 14;
+                    case 'U': return 16;
+                    case 'V': return 10;
+                    case 'W': return 22;
+                    case 'X': return 25;
+                    case 'Y': return 24;
+                    case 'Z': return 23;
+                    default:  return 0;
+                }
+            }
+            
+            char calcolo_carattere_controllo(char codice_fiscale[]) {
+                int somma = 0;
+                // predo i primi 15 caratteri
+                for (int i = 0; i < 15; i++) {
+                    char c = codice_fiscale[i];
+                    if (i % 2 == 0) { 
+                        somma += caratteri_dispari(c);
+                    } else {
+                        if (c >= '0' && c <= '9')
+                            somma += c - '0';
+                        else
+                            somma += c - 'A';
+                    }
+                }
+                return 'A' + (somma % 26);
+            }
+            
+            
+            
+            int main()
+            {
+                char codice_fiscale[17];
+                int g, m, a;
+                char nome[40];
+                char cognome[40];
+                char s;
+                char comune[20];
+                printf("Benvenuto nel programma di calcolo del tuo personale codice fiscale\n");
+                printf("Inserire il proprio nome: \n");
+                scanf("%s", nome);
+                printf("Inserire il proprio cognome: \n");
+                scanf("%s", cognome);
+            
+                printf("Si prega di inserire la data di nascita(gg mm aaaa): \n");
+                scanf("%d %d %d", &g, &m, &a);
+                printf("Inserire il sesso(F-M): \n");
+                scanf(" %c", &s);
+                printf("SI prega di inserire il comune di nascita: \n");
+                scanf("%s", comune);
+            
+                /* printf("giorno %d \n",g);
+                    printf("mese %d \n",m);
+                    printf("anno %d \n",a);
+                */
+                maiuscolo(nome);
+                maiuscolo(cognome);   //rendo tutto maiuscolo
+                calcolo_data(g, m, a, s, codice_fiscale);
+                calcolo_nome(nome, codice_fiscale);
+                calcolo_cognome(cognome, codice_fiscale);
+                calcolo_comune(comune, codice_fiscale);
+                codice_fiscale[15] = calcolo_carattere_controllo(codice_fiscale);
+                codice_fiscale[16] = '\0';
+                printf("Il tuo codice fiscale e': %s\n", codice_fiscale);
+            }
+            
+            
+</pre>
+    <a href="home.html" class="btn">Torna al Portfolio</a>
+  </div>
+</body>
+</html>
